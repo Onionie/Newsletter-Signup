@@ -39,15 +39,19 @@ const url = 'https://us1.api.mailchimp.com/3.0/lists/43f086d206';
 };
 
 const request = https.request(url,options,function(response){
-  response.on("data", function(data){
-  if(response.statusCode !== 200){
-    res.sendFile(__dirname+"/failure.html");
-  }else{
+  if(response.statusCode === 200){
     res.sendFile(__dirname+"/success.html");
-}
+
+  }else{
+    res.sendFile(__dirname+"/failure.html");
+  }
+
+  response.on("data", function(data){
+    console.log(JSON.parse(data));
   });
 });
-//request.write(jsonData);
+
+request.write(jsonData);
 request.end();
 });
 
